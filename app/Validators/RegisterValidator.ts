@@ -26,10 +26,10 @@ export default class RegisterValidator {
 	 */
   public messages = {
     'email.unique': 'Email already used.',
-    'email.required': 'Your email is required',
-    'email.maxLength': 'Your email can\'t be more than 255 characters long',
-    'email.email': 'Your email isn\'t valid',
-    'password.required': 'Password is required',
-    'password.maxLength': 'Your password can\'t be more than 255 characters long',
+    'email.required': 'Your email is required.',
+    'email.maxLength': 'Your email can\'t be more than 255 characters long.',
+    'email.email': 'Your email isn\'t valid.',
+    'password.required': 'Password is required.',
+    'password.maxLength': 'Your password can\'t be more than 255 characters long.',
   }
 }
