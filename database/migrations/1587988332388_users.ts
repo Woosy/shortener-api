@@ -5,13 +5,12 @@ export default class UsersSchema extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').primary()
+      table.increments('id')
       table.string('email', 255).notNullable().unique()
-      table.boolean('email_validated').notNullable().defaultTo(false)
       table.string('password', 180).notNullable()
-      table.string('remember_me_token').nullable()
       table.string('username', 32).nullable().unique()
-      table.enu('role', ['user', 'admin']).defaultTo('user')
+      table.boolean('email_validated').notNullable().defaultTo(false)
+      table.string('remember_me_token').nullable()
       table.timestamps(true)
     })
   }

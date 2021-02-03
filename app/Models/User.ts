@@ -1,41 +1,29 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import {
-  column,
-  beforeSave,
-  beforeCreate,
-  BaseModel,
-} from '@ioc:Adonis/Lucid/Orm'
-import { v4 as uuidv4 } from 'uuid'
+import { column, beforeSave, BaseModel, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
+import Organization from './Organization'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @beforeCreate()
-  public static async randomId (user: User) {
-    if (!user.id) {
-      user.id = uuidv4()
-    }
-  }
-
   @column()
   public email: string
-
-  @column()
-  public email_validated: boolean
 
   @column({ serializeAs: null })
   public password: string
 
   @column()
-  public rememberMeToken?: string
-
-  @column()
   public username: string
 
   @column()
-  public role: string
+  public email_validated: boolean
+
+  @column()
+  public rememberMeToken?: string
+
+  @manyToMany(() => Organization)
+  public organizations: ManyToMany<typeof Organization>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

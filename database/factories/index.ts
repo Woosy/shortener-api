@@ -11,10 +11,9 @@ export const UserFactory = Factory
   .define(User, ({ faker }) => {
     return {
       email: faker.internet.email(),
-      email_validated: faker.random.boolean(),
       password: faker.internet.password(),
       username: faker.internet.userName(),
-      role: faker.random.arrayElement(['user', 'admin']),
+      email_validated: faker.random.boolean(),
     }
   })
   .state('email_validated', (user) => user.email_validated = true)
@@ -43,5 +42,4 @@ export const OrganizationFactory = Factory
       name: faker.company.companyName(),
     }
   })
-  .relation('author', () => UserFactory)
   .build()

@@ -80,10 +80,10 @@ export default class AuthController {
       .update({ username: data.username })
 
     // create user's default organization
-    await Organization.create({
-      authorId: auth.user!.id,
-      name: `${data.username}'s workspace`,
-    })
+    const org = await Organization.create({ name: `${data.username}'s workspace` })
+    await auth.user
+      ?.related('organizations')
+      .attach({ [org.id]: { role: 'owner'} })
   }
 
   /**

@@ -37,3 +37,6 @@ Route.post('/auth/configure', 'AuthController.configure').middleware('auth')
 Route.post('/auth/login', 'AuthController.login')
 Route.post('/auth/logout', 'AuthController.logout')
 Route.get('/auth/user', 'AuthController.getUser').middleware('auth')
+
+// User routes
+Route.get('/user/organizations', 'UsersController.getOrganizations').middleware('auth')
