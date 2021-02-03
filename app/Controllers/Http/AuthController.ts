@@ -5,6 +5,7 @@ import User from 'App/Models/User'
 import Token from 'App/Models/Token'
 import EmailNotValidatedException from 'App/Exceptions/EmailNotValidatedException'
 import Logger from '@ioc:Adonis/Core/Logger'
+import Organization from 'App/Models/Organization'
 
 export default class AuthController {
   /**
@@ -55,6 +56,37 @@ export default class AuthController {
   }
 
   /**
+   * User's first login
+   */
+  public async configure ({ request, auth }: HttpContextContract) {
+    const data = await request.validate({
+      schema: schema.create({
+        username: schema.string({}, [
+          rules.unique({ table: 'users', column: 'username' }),
+          rules.required(),
+          rules.maxLength(64),
+        ]),
+      }),
+      messages: {
+        'username.unique': 'Username already used.',
+        'username.required': 'Username is required.',
+        'username.maxLength': 'Your username can\'t be more than 64 characters long.',
+      },
+    })
+
+    // set user's username
+    await User.query()
+      .where('id', auth.user!.id)
+      .update({ username: data.username })
+
+    // create user's default organization
+    await Organization.create({
+      authorId: auth.user!.id,
+      name: `${data.username}'s workspace`,
+    })
+  }
+
+  /**
    * User sign-in
    */
   public async login ({ auth, request }: HttpContextContract) {
@@ -68,6 +100,10 @@ export default class AuthController {
     // check if email is validated
     if (!user.email_validated) {
       throw new EmailNotValidatedException()
+    }
+
+    if (!user.username) {
+      return { needConfiguration: true }
     }
   }
 

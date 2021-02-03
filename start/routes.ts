@@ -32,6 +32,7 @@ Route.get('/health', async ({ response }) => {
 // Authentication routes
 Route.post('/auth/register', 'AuthController.register')
 Route.post('/auth/validate_email', 'AuthController.validateEmail')
+Route.post('/auth/configure', 'AuthController.configure').middleware('auth')
 
 Route.post('/auth/login', 'AuthController.login')
 Route.post('/auth/logout', 'AuthController.logout')
