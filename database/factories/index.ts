@@ -2,7 +2,7 @@ import Factory from '@ioc:Adonis/Lucid/Factory'
 
 import User from 'App/Models/User'
 import Token from 'App/Models/Token'
-import Organization from 'App/Models/Organization'
+import Workspace from 'App/Models/Workspace'
 
 /**
  * User
@@ -34,12 +34,13 @@ export const TokenFactory = Factory
   .build()
 
 /**
- * Organization
+ * Workspace
  */
-export const OrganizationFactory = Factory
-  .define(Organization, ({ faker }) => {
+export const WorkspaceFactory = Factory
+  .define(Workspace, ({ faker }) => {
     return {
       name: faker.company.companyName(),
+      color: faker.internet.color(),
     }
   })
   .build()

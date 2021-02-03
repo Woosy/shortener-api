@@ -1,12 +1,15 @@
 import { DateTime } from 'luxon'
 import { column, BaseModel } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Organization extends BaseModel {
+export default class Workspace extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
   public name: string
+
+  @column()
+  public color: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -5,7 +5,7 @@ import User from 'App/Models/User'
 import Token from 'App/Models/Token'
 import EmailNotValidatedException from 'App/Exceptions/EmailNotValidatedException'
 import Logger from '@ioc:Adonis/Core/Logger'
-import Organization from 'App/Models/Organization'
+import Workspace from 'App/Models/Workspace'
 
 export default class AuthController {
   /**
@@ -79,11 +79,11 @@ export default class AuthController {
       .where('id', auth.user!.id)
       .update({ username: data.username })
 
-    // create user's default organization
-    const org = await Organization.create({ name: `${data.username}'s workspace` })
+    // create user's default workspace
+    const workspace = await Workspace.create({ name: `${data.username}'s workspace` })
     await auth.user
-      ?.related('organizations')
-      .attach({ [org.id]: { role: 'owner'} })
+      ?.related('workspaces')
+      .attach({ [workspace.id]: { role: 'owner'} })
   }
 
   /**

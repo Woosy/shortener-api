@@ -1,5 +1,5 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
-import { OrganizationFactory, UserFactory } from 'Database/factories'
+import { WorkspaceFactory, UserFactory } from 'Database/factories'
 
 export default class UserSeeder extends BaseSeeder {
   public async run () {
@@ -14,31 +14,31 @@ export default class UserSeeder extends BaseSeeder {
       })
       .create()
 
-    const arthursOrg = await OrganizationFactory
-      .merge({ name: 'Arthur\'s Workspace' })
+    const arthursWorkspace = await WorkspaceFactory
+      .merge({ name: 'Arthur\'s Workspace', color: '#f56565' })
       .create()
 
     await arthur
-      .related('organizations')
-      .attach({ [arthursOrg.id]: { role: 'owner' } })
+      .related('workspaces')
+      .attach({ [arthursWorkspace.id]: { role: 'owner' } })
 
     // -----------------------------------------------------------
-    // create a second user + its organization, and add me to it
+    // create a second user + its workspace, and add me to it
     const user = await UserFactory
       .merge({
         username: 'Test',
         email_validated: true,
       })
       .create()
-    const testOrg = await OrganizationFactory
-      .merge({ name: 'Test\'s Workspace' })
+    const testWorkspace = await WorkspaceFactory
+      .merge({ name: 'Test\'s Workspace', color: '#ed8936' })
       .create()
 
     await user
-      .related('organizations')
-      .attach({ [testOrg.id]: { role: 'owner' } })
+      .related('workspaces')
+      .attach({ [testWorkspace.id]: { role: 'owner' } })
     await arthur
-      .related('organizations')
-      .attach({ [testOrg.id]: { role: 'member' } })
+      .related('workspaces')
+      .attach({ [testWorkspace.id]: { role: 'member' } })
   }
 }
