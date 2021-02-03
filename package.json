@@ -7,7 +7,10 @@
     "start": "node server.js",
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
-    "lint:fix": "eslint . --ext=.ts --fix"
+    "lint:fix": "eslint . --ext=.ts --fix",
+    "migration": "npm run migration:rb && npm run migration:run",
+    "migration:rb": "node ace migration:rollback",
+    "migration:run": "node ace migration:run"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^3.0.6",
