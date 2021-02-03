@@ -2,7 +2,11 @@ import Factory from '@ioc:Adonis/Lucid/Factory'
 
 import User from 'App/Models/User'
 import Token from 'App/Models/Token'
+import Organization from 'App/Models/Organization'
 
+/**
+ * User
+ */
 export const UserFactory = Factory
   .define(User, ({ faker }) => {
     return {
@@ -17,6 +21,9 @@ export const UserFactory = Factory
   .state('email_unvalidated', (user) => user.email_validated = false)
   .build()
 
+/**
+ * Token
+ */
 export const TokenFactory = Factory
   .define(Token, ({ faker }) => {
     return {
@@ -25,4 +32,16 @@ export const TokenFactory = Factory
     }
   })
   .relation('user', () => UserFactory)
+  .build()
+
+/**
+ * Organization
+ */
+export const OrganizationFactory = Factory
+  .define(Organization, ({ faker }) => {
+    return {
+      name: faker.company.companyName(),
+    }
+  })
+  .relation('author', () => UserFactory)
   .build()
