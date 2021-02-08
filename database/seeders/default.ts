@@ -40,5 +40,23 @@ export default class UserSeeder extends BaseSeeder {
     await arthur
       .related('workspaces')
       .attach({ [testWorkspace.id]: { role: 'member' } })
+
+    // -----------------------------------------------------------
+    // create a third user + its workspace, not related to me
+    const user2 = await UserFactory
+      .merge({
+        username: 'Arthur Dufour',
+        email: 'arthur.dufour@epsi.fr',
+        password: 'password',
+        email_validated: true,
+      })
+      .create()
+    const testWorkspace2 = await WorkspaceFactory
+      .merge({ name: 'Arthur Dufour\'s Workspace' })
+      .create()
+
+    await user2
+      .related('workspaces')
+      .attach({ [testWorkspace2.id]: { role: 'owner' } })
   }
 }

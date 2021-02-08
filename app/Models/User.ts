@@ -22,7 +22,9 @@ export default class User extends BaseModel {
   @column()
   public rememberMeToken?: string
 
-  @manyToMany(() => Workspace)
+  @manyToMany(() => Workspace, {
+    pivotColumns: ['role'],
+  })
   public workspaces: ManyToMany<typeof Workspace>
 
   @column.dateTime({ autoCreate: true })
@@ -35,6 +37,12 @@ export default class User extends BaseModel {
   public static async hashPassword (user: User) {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
+    }
+  }
+
+  public serializeExtras () {
+    return {
+      role: this.$extras.pivot_role,
     }
   }
 }
