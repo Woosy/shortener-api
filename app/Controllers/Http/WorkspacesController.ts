@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import WorkspaceValidator from 'App/Validators/WorkspaceValidator'
 import Workspace from 'App/Models/Workspace'
-
 export default class WorkspacesController {
   /**
    * Create a new workspace
@@ -14,6 +13,19 @@ export default class WorkspacesController {
     await user
       .related('workspaces')
       .attach({ [workspace.id]: { role: 'owner' }})
+
+    return workspace
+  }
+
+  /**
+   * Get all informations of current workspace
+   */
+  public async getById ({ params }: HttpContextContract) {
+    const workspace = await Workspace
+      .query()
+      .where('id', params.workspaceId)
+      .preload('members')
+      .first()
 
     return workspace
   }
