@@ -14,19 +14,21 @@ export default class WorkspacesController {
       .related('workspaces')
       .attach({ [workspace.id]: { role: 'owner' }})
 
+    await workspace.refresh()
+    await workspace.preload('members', (query) => {
+      query.pivotColumns(['role'])
+    })
+
     return workspace
   }
 
   /**
-   * Get all informations of current workspace
+   * Delete a workspace and its members
    */
-  public async getById ({ params }: HttpContextContract) {
-    const workspace = await Workspace
+  public async delete ({ params }: HttpContextContract) {
+    await Workspace
       .query()
       .where('id', params.workspaceId)
-      .preload('members')
-      .first()
-
-    return workspace
+      .delete()
   }
 }

@@ -16,6 +16,7 @@ export default class WorkspaceValidator {
       rules.maxLength(32),
     ]),
     color: schema.string.optional({}, [
+      rules.url(),
       rules.minLength(7),
       rules.maxLength(7),
     ]),

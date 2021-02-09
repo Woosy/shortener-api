@@ -6,8 +6,8 @@ export default class WorkspaceUser extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('user_id')
-      table.integer('workspace_id')
+      table.integer('user_id').references('users.id').onDelete('cascade')
+      table.integer('workspace_id').references('workspaces.id').onDelete('cascade')
       table.enu('role', ['member', 'owner'])
     })
   }
