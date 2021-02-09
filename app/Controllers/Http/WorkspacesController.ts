@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import WorkspaceValidator from 'App/Validators/WorkspaceValidator'
 import Workspace from 'App/Models/Workspace'
+import DeletePersonalWorkspaceException from 'App/Exceptions/DeletePersonalWorkspaceException'
 export default class WorkspacesController {
   /**
    * Create a new workspace
@@ -26,9 +27,15 @@ export default class WorkspacesController {
    * Delete a workspace and its members
    */
   public async delete ({ params }: HttpContextContract) {
-    await Workspace
+    const workspace = await Workspace
       .query()
       .where('id', params.workspaceId)
-      .delete()
+      .firstOrFail()
+
+    if (workspace.isPersonal) {
+      throw new DeletePersonalWorkspaceException()
+    }
+
+    await workspace.delete()
   }
 }

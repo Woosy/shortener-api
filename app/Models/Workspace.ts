@@ -12,6 +12,9 @@ export default class Workspace extends BaseModel {
   @column()
   public color: string
 
+  @column()
+  public isPersonal: boolean
+
   @manyToMany(() => User)
   public members: ManyToMany<typeof User>
 

@@ -80,7 +80,10 @@ export default class AuthController {
       .update({ username: data.username })
 
     // create user's default workspace
-    const workspace = await Workspace.create({ name: `${data.username}'s workspace` })
+    const workspace = await Workspace.create({
+      name: `${data.username}'s workspace`,
+      isPersonal: true,
+    })
     await auth.user
       ?.related('workspaces')
       .attach({ [workspace.id]: { role: 'owner'} })

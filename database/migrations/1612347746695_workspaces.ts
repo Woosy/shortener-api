@@ -8,6 +8,7 @@ export default class Workspaces extends BaseSchema {
       table.increments('id')
       table.string('name', 32).notNullable().unique()
       table.string('color', 10).nullable().defaultTo('#4299e1')
+      table.boolean('is_personal').defaultTo(false)
       table.timestamps(true)
     })
   }

@@ -15,8 +15,11 @@ export default class UserSeeder extends BaseSeeder {
       .create()
 
     const arthursWorkspace = await WorkspaceFactory
-      .merge({ name: 'Arthur\'s Workspace', color: '#f56565' })
-      .create()
+      .merge({
+        name: 'Arthur\'s Workspace',
+        color: '#f56565',
+        isPersonal: true,
+      }).create()
 
     await arthur
       .related('workspaces')
@@ -27,16 +30,22 @@ export default class UserSeeder extends BaseSeeder {
     const user = await UserFactory
       .merge({
         username: 'Test',
+        password: 'password',
         email_validated: true,
       })
       .create()
+
     const testWorkspace = await WorkspaceFactory
-      .merge({ name: 'Test\'s Workspace', color: '#ed8936' })
-      .create()
+      .merge({
+        name: 'Test\'s Workspace',
+        color: '#ed8936',
+        isPersonal: true,
+      }).create()
 
     await user
       .related('workspaces')
       .attach({ [testWorkspace.id]: { role: 'owner' } })
+
     await arthur
       .related('workspaces')
       .attach({ [testWorkspace.id]: { role: 'member' } })
@@ -51,12 +60,15 @@ export default class UserSeeder extends BaseSeeder {
         email_validated: true,
       })
       .create()
-    const testWorkspace2 = await WorkspaceFactory
-      .merge({ name: 'Arthur Dufour\'s Workspace' })
-      .create()
+
+    const user2Workspace = await WorkspaceFactory
+      .merge({
+        name: 'Arthur Dufour\'s Workspace',
+        isPersonal: true,
+      }).create()
 
     await user2
       .related('workspaces')
-      .attach({ [testWorkspace2.id]: { role: 'owner' } })
+      .attach({ [user2Workspace.id]: { role: 'owner' } })
   }
 }

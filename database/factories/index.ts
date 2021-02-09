@@ -41,6 +41,7 @@ export const WorkspaceFactory = Factory
     return {
       name: faker.company.companyName(),
       color: faker.internet.color(),
+      isPersonal: false,
     }
   })
   .build()
