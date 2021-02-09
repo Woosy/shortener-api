@@ -38,4 +38,19 @@ export default class WorkspacesController {
 
     await workspace.delete()
   }
+
+  /**
+   * Get a workspace by its id
+   */
+  public async getById ({ params }: HttpContextContract) {
+    const workspace = await Workspace
+      .query()
+      .where('id', params.workspaceId)
+      .preload('members', (query) => {
+        query.pivotColumns(['role'])
+      })
+      .firstOrFail()
+
+    return workspace
+  }
 }

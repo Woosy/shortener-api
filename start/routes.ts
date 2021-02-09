@@ -39,9 +39,10 @@ Route.post('/auth/logout', 'AuthController.logout')
 Route.get('/auth/user', 'AuthController.getUser').middleware('auth')
 
 // User routes
+Route.get('/users/workspace', 'UsersController.getWorkspace').middleware('auth')
 Route.get('/users/workspaces', 'UsersController.getWorkspaces').middleware('auth')
 
 // Workspace routes
 Route.post('/workspaces', 'WorkspacesController.create').middleware('auth')
 Route.delete('/workspaces/:workspaceId', 'WorkspacesController.delete').middleware('auth')
-
+Route.get('/workspaces/:workspaceId', 'WorkspacesController.getById').middleware('auth')
