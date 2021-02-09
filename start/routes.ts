@@ -46,3 +46,4 @@ Route.get('/users/workspaces', 'UsersController.getWorkspaces').middleware('auth
 Route.post('/workspaces', 'WorkspacesController.create').middleware('auth')
 Route.delete('/workspaces/:workspaceId', 'WorkspacesController.delete').middleware('auth')
 Route.get('/workspaces/:workspaceId', 'WorkspacesController.getById').middleware('auth')
+Route.post('/workspaces/:workspaceId/members', 'WorkspacesController.addMember').middleware('auth')
