@@ -21,6 +21,9 @@
 import Route from '@ioc:Adonis/Core/Route'
 import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
 
+// -------------------------------------
+// Random routes
+// -------------------------------------
 Route.get('/health', async ({ response }) => {
   const report = await HealthCheck.getReport()
 
@@ -29,22 +32,39 @@ Route.get('/health', async ({ response }) => {
     : response.badRequest(report)
 })
 
+// -------------------------------------
 // Authentication routes
-Route.post('/auth/register', 'AuthController.register')
-Route.post('/auth/validate_email', 'AuthController.validateEmail')
-Route.post('/auth/configure', 'AuthController.configure').middleware('auth')
+// -------------------------------------
 
-Route.post('/auth/login', 'AuthController.login')
-Route.post('/auth/logout', 'AuthController.logout')
-Route.get('/auth/user', 'AuthController.getUser').middleware('auth')
+Route.group(() => {
+  Route.post('/register', 'AuthController.register')
+  Route.post('/validate_email', 'AuthController.validateEmail')
+  Route.post('/configure', 'AuthController.configure').middleware('auth')
 
+  Route.post('/logout', 'AuthController.logout')
+  Route.post('/login', 'AuthController.login')
+  Route.get('/user', 'AuthController.getUser').middleware('auth')
+}).prefix('auth')
+
+// -------------------------------------
 // User routes
-Route.get('/users/workspace', 'UsersController.getWorkspace').middleware('auth')
-Route.get('/users/workspaces', 'UsersController.getWorkspaces').middleware('auth')
+// -------------------------------------
 
+Route.group(() => {
+  Route.get('/workspace', 'UsersController.getWorkspace')
+  Route.get('/workspaces', 'UsersController.getWorkspaces')
+}).prefix('users').middleware(['auth'])
+
+// -------------------------------------
 // Workspace routes
-Route.post('/workspaces', 'WorkspacesController.create').middleware('auth')
-Route.delete('/workspaces/:workspaceId', 'WorkspacesController.delete').middleware('auth')
-Route.get('/workspaces/:workspaceId', 'WorkspacesController.getById').middleware('auth')
-Route.post('/workspaces/:workspaceId/members', 'WorkspacesController.addMember').middleware('auth')
-Route.delete('/workspaces/:workspaceId/members/:memberId', 'WorkspacesController.removeMember').middleware('auth')
+// -------------------------------------
+
+Route.group(() => {
+  Route.post('/', 'WorkspacesController.create')
+
+  Route.delete('/:workspaceId', 'WorkspacesController.delete')
+  Route.get('/:workspaceId', 'WorkspacesController.getById')
+
+  Route.post('/:workspaceId/members', 'WorkspacesController.addMember').middleware(['owner-only'])
+  Route.delete('/:workspaceId/members/:memberId', 'WorkspacesController.removeMember').middleware(['owner-only'])
+}).prefix('workspaces').middleware(['auth'])

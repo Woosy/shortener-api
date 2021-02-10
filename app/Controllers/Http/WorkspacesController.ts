@@ -59,22 +59,13 @@ export default class WorkspacesController {
   /**
    * Add a user to a workspace
    */
-  public async addMember ({ auth, params, request }: HttpContextContract) {
-    const authUser = auth.user!
-
+  public async addMember ({ params, request }: HttpContextContract) {
     // get workspace
     const workspace = await Workspace
       .query()
       .where('id', params.workspaceId)
       .preload('members')
       .firstOrFail()
-
-    // TODO: middleware?
-    // check if auth.user is owner
-    const owner = workspace.members.find((member: any) => member.$extras.pivot_role === 'owner')
-    if (authUser.id !== owner?.id) {
-      throw new UnauthorizedException('You must be the workspace owner to do that.')
-    }
 
     // check if email is a valid user
     const user = await User
@@ -105,9 +96,7 @@ export default class WorkspacesController {
   /**
    * Remove user from a workspace
    */
-  public async removeMember ({ auth, params }: HttpContextContract) {
-    const authUser = auth.user!
-
+  public async removeMember ({ params }: HttpContextContract) {
     const user = await User
       .findByOrFail('id', params.memberId)
 
@@ -117,15 +106,9 @@ export default class WorkspacesController {
       .preload('members')
       .firstOrFail()
 
-    // TODO: middleware?
-    // check if auth.user is owner
+    // don't remove owner
     const owner = workspace.members.find((member: any) => member.$extras.pivot_role === 'owner')
-    if (authUser.id !== owner?.id) {
-      throw new UnauthorizedException('You must be the workspace owner to do that.')
-    }
-
-    // unauthorize removing an owner
-    if (user.id === owner.id) {
+    if (user.id === owner!.id) {
       throw new UnauthorizedException('You can\'t remove the owner from the workspace.')
     }
 
