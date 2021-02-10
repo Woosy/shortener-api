@@ -1,13 +1,13 @@
 import { Exception } from '@poppinss/utils'
 // import { Exception } from '@adonisjs/core'
 
-const code = 'E_NOT_OWNER'
-const status = 403
-const message = 'You must be the workspace owner to do that.'
+const code = 'E_NOT_FOUND'
+const status = 404
 
-export default class NotOwnerException extends Exception {
-  constructor () {
+export default class NotFoundException extends Exception {
+  constructor (message: string) {
     super(message, status, code)
+    this.message = message
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
@@ -16,7 +16,7 @@ export default class NotOwnerException extends Exception {
       errors: [{
         status: status,
         code: code,
-        message: message,
+        message: this.message,
       }],
     })
   }

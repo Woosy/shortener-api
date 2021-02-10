@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { column, BaseModel, manyToMany, ManyToMany, computed } from '@ioc:Adonis/Lucid/Orm'
+import { column, BaseModel, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 
 export default class Workspace extends BaseModel {
@@ -15,7 +15,9 @@ export default class Workspace extends BaseModel {
   @column()
   public isPersonal: boolean
 
-  @manyToMany(() => User)
+  @manyToMany(() => User, {
+    pivotColumns: ['role'],
+  })
   public members: ManyToMany<typeof User>
 
   @column.dateTime({ autoCreate: true })
@@ -23,4 +25,10 @@ export default class Workspace extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  public serializeExtras () {
+    return {
+      role: this.$extras.pivot_role,
+    }
+  }
 }

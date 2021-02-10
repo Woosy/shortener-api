@@ -1,13 +1,13 @@
 import { Exception } from '@poppinss/utils'
 // import { Exception } from '@adonisjs/core'
 
-const code = 'E_DELETE_PERSONAL_WORKSPACE'
-const status = 412
-const message = 'Cannot delete personal workspace.'
+const code = 'E_UNAUTHORIZED'
+const status = 403
 
-export default class DeletePersonalWorkspaceException extends Exception {
-  constructor () {
+export default class UnauthorizedException extends Exception {
+  constructor (message: string) {
     super(message, status, code)
+    this.message = message
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
@@ -16,7 +16,7 @@ export default class DeletePersonalWorkspaceException extends Exception {
       errors: [{
         status: status,
         code: code,
-        message: message,
+        message: this.message,
       }],
     })
   }

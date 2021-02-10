@@ -2,8 +2,8 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import WorkspaceValidator from 'App/Validators/WorkspaceValidator'
 import Workspace from 'App/Models/Workspace'
 import User from 'App/Models/User'
-import DeletePersonalWorkspaceException from 'App/Exceptions/DeletePersonalWorkspaceException'
-import NotOwnerException from 'App/Exceptions/NotOwnerException'
+import NotFoundException from 'App/Exceptions/NotFoundException'
+import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 export default class WorkspacesController {
   /**
    * Create a new workspace
@@ -35,7 +35,7 @@ export default class WorkspacesController {
       .firstOrFail()
 
     if (workspace.isPersonal) {
-      throw new DeletePersonalWorkspaceException()
+      throw new UnauthorizedException('You cannot delete your personal workspace')
     }
 
     await workspace.delete()
@@ -66,25 +66,28 @@ export default class WorkspacesController {
     const workspace = await Workspace
       .query()
       .where('id', params.workspaceId)
-      .preload('members', (query) => {
-        query.wherePivot('role', 'owner')
-      })
+      .preload('members')
       .firstOrFail()
 
     // check if auth.user is owner
-    const owner = workspace.members[0]
+    const owner = workspace.members.find((member: any) => member.$extras.pivot_role === 'owner')
     if (authUser.id !== owner?.id) {
-      throw new NotOwnerException()
+      throw new UnauthorizedException('You must be the workspace owner to do that.')
     }
 
-    // check if email is a valid user
+    // // check if email is a valid user
     const user = await User
       .query()
       .where('email', request.input('email'))
       .firstOrFail()
-      // TODO: message user not found
+      .catch(() => {
+        throw new NotFoundException('User not found.')
+      })
 
-    // TODO: check if user isn't already member
+    // check if user isn't already member
+    if (workspace.members.some((member: any) => member.id === user.id)) {
+      throw new UnauthorizedException('Already a member.')
+    }
 
     // add user to members
     await user
