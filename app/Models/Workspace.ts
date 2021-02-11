@@ -1,7 +1,17 @@
 import { DateTime } from 'luxon'
-import { column, BaseModel, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
-import User from './User'
-
+import {
+  column,
+  BaseModel,
+  manyToMany,
+  ManyToMany,
+  hasMany,
+  HasMany,
+  hasManyThrough,
+  HasManyThrough,
+} from '@ioc:Adonis/Lucid/Orm'
+import User from 'App/Models/User'
+import Link from 'App/Models/Link'
+import Click from 'App/Models/Click'
 export default class Workspace extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -15,10 +25,14 @@ export default class Workspace extends BaseModel {
   @column()
   public isPersonal: boolean
 
-  @manyToMany(() => User, {
-    pivotColumns: ['role'],
-  })
+  @manyToMany(() => User, { pivotColumns: ['role'] })
   public members: ManyToMany<typeof User>
+
+  @hasMany(() => Link)
+  public links: HasMany<typeof Link>
+
+  @hasManyThrough([() => Click, () => Link])
+  public clicks: HasManyThrough<typeof Click>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
