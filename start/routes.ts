@@ -68,3 +68,13 @@ Route.group(() => {
   Route.post('/:workspaceId/members', 'WorkspacesController.addMember').middleware(['owner-only'])
   Route.delete('/:workspaceId/members/:memberId', 'WorkspacesController.removeMember').middleware(['owner-only'])
 }).prefix('workspaces').middleware(['auth'])
+
+// -------------------------------------
+// Link routes
+// -------------------------------------
+
+Route.get('/:key', 'LinksController.getByKey')
+
+Route.group(() => {
+  Route.post('/', 'LinksController.create')
+}).prefix('links').middleware(['auth'])

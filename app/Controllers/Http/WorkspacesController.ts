@@ -51,6 +51,8 @@ export default class WorkspacesController {
       .preload('members', (query) => {
         query.pivotColumns(['role'])
       })
+      .preload('links')
+      .preload('clicks')
       .firstOrFail()
 
     return workspace

@@ -3,10 +3,12 @@ import Factory from '@ioc:Adonis/Lucid/Factory'
 import User from 'App/Models/User'
 import Token from 'App/Models/Token'
 import Workspace from 'App/Models/Workspace'
+import Link from 'App/Models/Link'
+import Click from 'App/Models/Click'
 
-/**
- * User
- */
+// -------------------------------------
+// -- User 
+// -------------------------------------
 export const UserFactory = Factory
   .define(User, ({ faker }) => {
     return {
@@ -20,9 +22,9 @@ export const UserFactory = Factory
   .state('email_unvalidated', (user) => user.email_validated = false)
   .build()
 
-/**
- * Token
- */
+// -------------------------------------
+// -- Token 
+// -------------------------------------
 export const TokenFactory = Factory
   .define(Token, ({ faker }) => {
     return {
@@ -33,9 +35,9 @@ export const TokenFactory = Factory
   .relation('user', () => UserFactory)
   .build()
 
-/**
- * Workspace
- */
+// -------------------------------------
+// -- Workspace 
+// -------------------------------------
 export const WorkspaceFactory = Factory
   .define(Workspace, ({ faker }) => {
     return {
@@ -45,3 +47,23 @@ export const WorkspaceFactory = Factory
     }
   })
   .build()
+
+// -------------------------------------
+// -- Link 
+// -------------------------------------
+export const LinkFactory = Factory
+  .define(Link, ({ faker }) => {
+    return {
+      title: faker.lorem.words(2),
+      url: faker.internet.url(),
+    }
+  })
+
+// -------------------------------------
+// -- Click 
+// -------------------------------------
+export const ClickFactory = Factory
+  .define(Click, ({ }) => {
+    return {
+    }
+  })

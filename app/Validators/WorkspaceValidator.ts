@@ -16,20 +16,19 @@ export default class WorkspaceValidator {
       rules.maxLength(32),
     ]),
     color: schema.string.optional({}, [
-      rules.url(),
       rules.minLength(7),
       rules.maxLength(7),
     ]),
   })
 
   /**
-	 * Custom messages for validation failures.`
+	 * Custom messages for validation failures.
 	 */
   public messages = {
     'name.unique': 'Workspace name already not available.',
     'name.required': 'Please provide a name for your workspace.',
     'name.alpha': 'Workspace name can only contain letters.',
-    'name.maxLength': 'Your workspace\'s name can\'t be morre than 32 characters long.',
+    'name.maxLength': 'Your workspace\'s name can\'t be more than 32 characters long.',
     'color.minLength': 'Color must be in hexadecimal format.',
     'color.maxLength': 'Color must be in hexadecimal format.',
   }
