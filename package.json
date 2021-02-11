@@ -8,9 +8,10 @@
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
     "lint:fix": "eslint . --ext=.ts --fix",
-    "migration": "npm run migration:rb && npm run migration:run",
-    "migration:rb": "node ace migration:rollback",
-    "migration:run": "node ace migration:run"
+    "migrations": "npm run migrations:rb && npm run migrations:run",
+    "migrations:rb": "node ace migration:rollback",
+    "migrations:run": "node ace migration:run",
+    "seed": "node ace db:seed --files=database/seeders/index"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^3.0.6",
