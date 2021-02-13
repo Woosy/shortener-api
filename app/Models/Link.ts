@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, BelongsTo, belongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Click from 'App/Models/Click'
+import User from 'App/Models/User'
 
 export default class Link extends BaseModel {
   @column({ isPrimary: true })
@@ -24,6 +25,9 @@ export default class Link extends BaseModel {
 
   @column()
   public userId: number
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
 
   @column()
   public workspaceId: number

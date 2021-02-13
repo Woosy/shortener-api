@@ -48,10 +48,11 @@ export default class WorkspacesController {
     const workspace = await Workspace
       .query()
       .where('id', params.workspaceId)
-      .preload('members', (query) => {
-        query.pivotColumns(['role'])
+      .preload('members', (query) => query.pivotColumns(['role']))
+      .preload('links', (query) => {
+        query.preload('user')
+        query.preload('clicks')
       })
-      .preload('links')
       .preload('clicks')
       .firstOrFail()
 

@@ -11,10 +11,11 @@ export default class UsersController {
       .query()
       .where('user_id', user.id)
       .andWhere('is_personal', true)
-      .preload('members', (query) => {
-        query.pivotColumns(['role'])
+      .preload('members', (query) => query.pivotColumns(['role']))
+      .preload('links', (query) => {
+        query.preload('user')
+        query.preload('clicks')
       })
-      .preload('links')
       .preload('clicks')
       .firstOrFail()
 

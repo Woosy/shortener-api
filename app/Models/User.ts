@@ -18,6 +18,9 @@ export default class User extends BaseModel {
   public username: string
 
   @column()
+  public avatarUrl: string
+
+  @column()
   public email_validated: boolean
 
   @column()

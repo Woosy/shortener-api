@@ -15,6 +15,7 @@ export const UserFactory = Factory
       email: faker.internet.email(),
       password: faker.internet.password(),
       username: faker.internet.userName(),
+      avatarUrl: faker.image.image(),
       email_validated: faker.random.boolean(),
     }
   })
