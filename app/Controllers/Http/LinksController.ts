@@ -34,6 +34,14 @@ export default class LinksController {
   }
 
   /**
+   * Delete a link (by its id)
+   */
+  public async delete ({ params }: HttpContextContract) {
+    const link = await Link.findByOrFail('id', params.linkId)
+    await link.delete()
+  }
+
+  /**
    * Get link by its key (and create associated click)
    */
   public async getByKey ({ response, params }: HttpContextContract) {

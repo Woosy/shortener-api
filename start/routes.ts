@@ -60,11 +60,13 @@ Route.group(() => {
 // -------------------------------------
 
 Route.group(() => {
+  // Workspace management
   Route.post('/', 'WorkspacesController.create')
-
   Route.delete('/:workspaceId', 'WorkspacesController.delete')
+
   Route.get('/:workspaceId', 'WorkspacesController.getById')
 
+  // Members management
   Route.post('/:workspaceId/members', 'WorkspacesController.addMember').middleware(['owner-only'])
   Route.delete('/:workspaceId/members/:memberId', 'WorkspacesController.removeMember').middleware(['owner-only'])
 }).prefix('workspaces').middleware(['auth'])
@@ -77,4 +79,5 @@ Route.get('/:key', 'LinksController.getByKey')
 
 Route.group(() => {
   Route.post('/', 'LinksController.create')
+  Route.delete('/:linkId', 'LinksController.delete')
 }).prefix('links').middleware(['auth'])
