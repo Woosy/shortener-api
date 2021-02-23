@@ -27,6 +27,9 @@ export default class LinksController {
       .related('links')
       .save(link)
 
+    await link.preload('user')
+    await link.preload('clicks')
+
     return link
   }
 
