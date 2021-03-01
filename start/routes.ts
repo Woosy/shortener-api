@@ -62,7 +62,7 @@ Route.group(() => {
 Route.group(() => {
   // Workspace management
   Route.post('/', 'WorkspacesController.create')
-  Route.delete('/:workspaceId', 'WorkspacesController.delete')
+  Route.delete('/:workspaceId', 'WorkspacesController.delete').middleware(['owner-only'])
 
   Route.get('/:workspaceId', 'WorkspacesController.getById')
 
