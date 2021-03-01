@@ -21,7 +21,7 @@ export default class LinksController {
     link.workspaceId = workspace.id
     link.longUrl = data.url
     if (data.title) { link.title = data.title }
-    if (link.key) { link.key = data.key }
+    if (link.key) { link.key = data.key || '' }
 
     await user
       .related('links')
