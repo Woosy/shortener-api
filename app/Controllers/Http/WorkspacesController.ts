@@ -50,6 +50,7 @@ export default class WorkspacesController {
       .where('id', params.workspaceId)
       .preload('members', (query) => query.pivotColumns(['role']))
       .preload('links', (query) => {
+        query.orderBy('createdAt', 'desc')
         query.preload('user')
         query.preload('clicks')
       })

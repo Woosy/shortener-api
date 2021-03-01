@@ -20,13 +20,14 @@ export default class LinksController {
     const link = new Link()
     link.workspaceId = workspace.id
     link.longUrl = data.url
-    // link.title = data.title // TODO: manage optional title
-    // link.key = 'test' // TODO: manage custom key
+    if (data.title) { link.title = data.title }
+    if (link.key) { link.key = data.key }
 
     await user
       .related('links')
       .save(link)
 
+    await link.refresh()
     await link.preload('user')
     await link.preload('clicks')
 
