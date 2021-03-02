@@ -56,9 +56,10 @@ export const LinkFactory = Factory
   .define(Link, ({ faker }) => {
     return {
       title: faker.lorem.words(2),
-      url: faker.internet.url(),
+      longUrl: faker.internet.url(),
     }
   })
+  .build()
 
 // -------------------------------------
 // -- Click 
@@ -68,3 +69,4 @@ export const ClickFactory = Factory
     return {
     }
   })
+  .build()

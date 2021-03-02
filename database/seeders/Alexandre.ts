@@ -36,9 +36,9 @@ export default class AlexandreSeeder extends BaseSeeder {
     // ---------------------------------
 
     // 4. add arthur to "alexandre's workspace"
-    const arthur = await User.findBy('email', 'dufourarthur.perso@gmail.com')
+    const arthur = await User.findByOrFail('email', 'dufourarthur.perso@gmail.com')
     await arthur
-      ?.related('workspaces')
+      .related('workspaces')
       .attach({ [alexandresWorkspace.id]: { role: 'member' } })
   }
 }
