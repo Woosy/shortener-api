@@ -1,7 +1,6 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
-import { WorkspaceFactory, UserFactory, LinkFactory } from 'Database/factories'
+import { WorkspaceFactory, UserFactory, LinkFactory, TagFactory } from 'Database/factories'
 import User from 'App/Models/User'
-import Link from 'App/Models/Link'
 
 export default class ArthurSeeder extends BaseSeeder {
   public async run () {
@@ -99,26 +98,40 @@ export default class ArthurSeeder extends BaseSeeder {
     // 4. add links to RBS workspace
     // ---------------------------------
 
+    // create a lot of links
     const arthursLinks = await LinkFactory
       .merge({ workspaceId: rbsWorkspace.id })
       .createMany(10)
+    await arthur
+      .related('links')
+      .saveMany(arthursLinks)
 
     const manonsLinks = await LinkFactory
       .merge({ workspaceId: rbsWorkspace.id })
       .createMany(10)
+    await manon
+      .related('links')
+      .saveMany(manonsLinks)
 
     const charliesLinks = await LinkFactory
       .merge({ workspaceId: rbsWorkspace.id })
       .createMany(10)
-
-    await arthur
-      .related('links')
-      .saveMany(arthursLinks)
-    await manon
-      .related('links')
-      .saveMany(manonsLinks)
     await charlie
       .related('links')
       .saveMany(charliesLinks)
+
+    // custom link with tag
+    const link = await LinkFactory
+      .merge({ workspaceId: rbsWorkspace.id })
+      .create()
+    await arthur
+      .related('links')
+      .save(link)
+
+    const tag = await TagFactory
+      .create()
+    await link
+      .related('tags')
+      .save(tag)
   }
 }
