@@ -1,7 +1,15 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, BelongsTo, belongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  column,
+  beforeSave,
+  BelongsTo, belongsTo,
+  hasMany, HasMany,
+  manyToMany, ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import Click from 'App/Models/Click'
 import User from 'App/Models/User'
+import Tag from 'App/Models/Tag'
 
 export default class Link extends BaseModel {
   @column({ isPrimary: true })
@@ -34,6 +42,9 @@ export default class Link extends BaseModel {
 
   @hasMany(() => Click)
   public clicks: HasMany<typeof Click>
+
+  @manyToMany(() => Tag)
+  public tags: ManyToMany<typeof Tag>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

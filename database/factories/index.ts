@@ -5,6 +5,7 @@ import Token from 'App/Models/Token'
 import Workspace from 'App/Models/Workspace'
 import Link from 'App/Models/Link'
 import Click from 'App/Models/Click'
+import Tag from 'App/Models/Tag'
 
 // -------------------------------------
 // -- User 
@@ -67,6 +68,17 @@ export const LinkFactory = Factory
 export const ClickFactory = Factory
   .define(Click, ({ }) => {
     return {
+    }
+  })
+  .build()
+
+// -------------------------------------
+// -- Tag 
+// -------------------------------------
+export const TagFactory = Factory
+  .define(Tag, ({ faker}) => {
+    return {
+      value: faker.lorem.word(),
     }
   })
   .build()
