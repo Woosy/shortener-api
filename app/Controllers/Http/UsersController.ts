@@ -15,6 +15,7 @@ export default class UsersController {
       .preload('links', (query) => {
         query.preload('user')
         query.preload('clicks')
+        query.preload('tags')
       })
       .preload('clicks')
       .firstOrFail()
