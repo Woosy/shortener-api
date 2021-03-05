@@ -1,17 +1,15 @@
 import { DateTime } from 'luxon'
 import {
-  column,
   BaseModel,
-  manyToMany,
-  ManyToMany,
-  hasMany,
-  HasMany,
-  hasManyThrough,
-  HasManyThrough,
+  column,
+  manyToMany, ManyToMany,
+  hasMany, HasMany,
+  hasManyThrough, HasManyThrough,
 } from '@ioc:Adonis/Lucid/Orm'
 import User from 'App/Models/User'
 import Link from 'App/Models/Link'
 import Click from 'App/Models/Click'
+
 export default class Workspace extends BaseModel {
   @column({ isPrimary: true })
   public id: number
