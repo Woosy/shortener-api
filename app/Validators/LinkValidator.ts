@@ -24,6 +24,11 @@ export default class LinkValidator {
       rules.minLength(1),
       rules.maxLength(512),
     ]),
+    tags: schema.array.optional([ rules.distinct('*')]).members(
+      schema.object().members({
+        text: schema.string(),
+      })
+    ),
     workspaceId: schema.number(),
   })
 

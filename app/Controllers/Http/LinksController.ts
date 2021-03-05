@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Link from 'App/Models/Link'
 import Click from 'App/Models/Click'
 import Workspace from 'App/Models/Workspace'
+import Tag from 'App/Models/Tag'
 import LinkValidator from 'App/Validators/LinkValidator'
 
 export default class LinksController {
@@ -27,9 +28,23 @@ export default class LinksController {
       .related('links')
       .save(link)
 
+    // create/associate tags
+    if (data.tags) {
+      for await (const tag of data.tags) {
+        const payload = { value: tag.text }
+        const temp = await Tag.firstOrCreate(payload, payload)
+        await link
+          .related('tags')
+          .save(temp)
+      }
+    }
+
+    // const tag = data.tags?[0]
+
     await link.refresh()
     await link.preload('user')
     await link.preload('clicks')
+    await link.preload('tags')
 
     return link
   }
