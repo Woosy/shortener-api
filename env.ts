@@ -30,4 +30,5 @@ export default Env.rules({
 
   SESSION_DRIVER: Env.schema.string(),
   COOKIE_DOMAIN: Env.schema.string({ format: 'host' }),
+  FRONT_URL: Env.schema.string({ format: 'url' }),
 })

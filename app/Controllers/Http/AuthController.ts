@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Env from '@ioc:Adonis/Core/Env'
 import RegisterValidator from 'App/Validators/RegisterValidator'
 import User from 'App/Models/User'
 import Token from 'App/Models/Token'
@@ -22,7 +23,7 @@ export default class AuthController {
     token.type = 'EMAIL_VALIDATION'
     await token.related('user').associate(user)
 
-    Logger.info(`Email confirmation link: http://127.0.0.1:3000/sign-up/${token.value}`)
+    Logger.info(`Email confirmation link: ${Env.get('FRONT_URL')}/sign-up/${token.value}`)
 
     return { user, token }
   }
