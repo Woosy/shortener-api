@@ -101,7 +101,7 @@ export default class ArthurSeeder extends BaseSeeder {
     // create a lot of links
     const arthursLinks = await LinkFactory
       .merge({ workspaceId: rbsWorkspace.id })
-      .createMany(10)
+      .createMany(50)
     await arthur
       .related('links')
       .saveMany(arthursLinks)
