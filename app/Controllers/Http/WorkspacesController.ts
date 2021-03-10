@@ -52,7 +52,9 @@ export default class WorkspacesController {
       .preload('links', (query) => {
         query.orderBy('createdAt', 'desc')
         query.preload('user')
-        query.preload('clicks')
+        query.preload('clicks', (query) => {
+          query.orderBy('createdAt', 'asc')
+        })
         query.preload('tags')
       })
       .preload('clicks')

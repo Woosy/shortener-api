@@ -14,7 +14,9 @@ export default class UsersController {
       .preload('members', (query) => query.pivotColumns(['role']))
       .preload('links', (query) => {
         query.preload('user')
-        query.preload('clicks')
+        query.preload('clicks', (query) => {
+          query.orderBy('createdAt', 'asc')
+        })
         query.preload('tags')
       })
       .preload('clicks')
