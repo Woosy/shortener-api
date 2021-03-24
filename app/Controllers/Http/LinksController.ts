@@ -50,6 +50,25 @@ export default class LinksController {
   }
 
   /**
+   * Edit a link
+   */
+  public async edit ({ request }: HttpContextContract) {
+    const link = await Link.findByOrFail('id', request.input('id'))
+
+    if (request.input('title')) link.title = request.input('title')
+    if (request.input('key')) link.key = request.input('key')
+
+    await link.save()
+
+    await link.refresh()
+    await link.preload('user')
+    await link.preload('clicks')
+    await link.preload('tags')
+
+    return link
+  }
+
+  /**
    * Delete a link (by its id)
    */
   public async delete ({ params }: HttpContextContract) {
