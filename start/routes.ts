@@ -79,5 +79,6 @@ Route.get('/:key', 'LinksController.getByKey')
 
 Route.group(() => {
   Route.post('/', 'LinksController.create')
+  Route.put('/', 'LinksController.edit')
   Route.delete('/:linkId', 'LinksController.delete')
 }).prefix('links').middleware(['auth'])
